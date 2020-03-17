@@ -64,5 +64,7 @@ def get_latest_data(dest="data/", marketFileKey="id", contractFileKey="id"):
                 contract_file.close()
         meta_file.close()
 
-
-get_latest_data()
+print('hello')
+# */1 * * * * /Users/andersknospe/PycharmProjects/predictit/venv/bin/python /Users/andersknospe/PycharmProjects/predictit/main.py >> ~/cron.log 2>&1
+get_latest_data(dest="/Users/andersknospe/PycharmProjects/predictit/data/")
+# get_latest_data(dest="data/")
