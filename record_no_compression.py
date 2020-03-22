@@ -17,7 +17,7 @@ Each contract file (i.e. 4390.csv)
 '''
 
 
-def get_latest_data(dest="data/", marketFileKey="id", contractFileKey="id"):
+def get_latest_data(dest="old_data/", marketFileKey="id", contractFileKey="id"):
     response = requests.get("https://www.predictit.org/api/marketdata/all/")
 
     data = response.json()
@@ -53,18 +53,17 @@ def get_latest_data(dest="data/", marketFileKey="id", contractFileKey="id"):
                 else:
                     doesContractExist = False
 
+                timeStamp = market["timeStamp"]
+                curr_prices = [contract["bestBuyYesCost"], contract["bestBuyNoCost"], contract["bestSellYesCost"],
+                               contract["bestSellNoCost"]]
+
                 with open(marketDir + "/contract" + str(contract[contractFileKey]) + ".csv", "a") as contract_file:
                     contract_writer = csv.writer(contract_file, delimiter=",")
                     if not doesContractExist:
                         contract_writer.writerow(
                             ["timeStamp", "bestBuyYesCost", "bestBuyNoCost", "bestSellYesCost", "bestSellNoCost"])
-                    contract_writer.writerow(
-                        [market["timeStamp"], contract["bestBuyYesCost"], contract["bestBuyNoCost"],
-                         contract["bestSellYesCost"], contract["bestSellNoCost"]])
+                    contract_writer.writerow([timeStamp] + curr_prices)
                 contract_file.close()
         meta_file.close()
 
-print('hello')
-# */1 * * * * /Users/andersknospe/PycharmProjects/predictit/venv/bin/python /Users/andersknospe/PycharmProjects/predictit/main.py >> ~/cron.log 2>&1
-get_latest_data(dest="/Users/andersknospe/PycharmProjects/predictit/data/")
-# get_latest_data(dest="data/")
+get_latest_data(dest="data/")
