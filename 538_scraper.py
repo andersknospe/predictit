@@ -79,15 +79,14 @@ def update_data(dest="538data/"):
     meta_file.close()
 
     if update:
-        with open(dest + "aggregate.csv", "w") as agg_file:
+        with open(dest + "aggregate.csv", "a") as agg_file:
             agg_writer = csv.writer(agg_file, delimiter=",")
             agg_writer.writerow([agg['timestamp'], agg['approval'], agg['disapproval']])
         agg_file.close()
 
-        with open(dest + "polls.csv", "w") as polls_file:
+        with open(dest + "polls.csv", "a") as polls_file:
             polls_writer = csv.writer(polls_file, delimiter=",")
             polls_writer.writerow([curr['date_range'], curr['pollster'], curr['link'], curr['approval'], curr['disapproval'], curr['adj_approval'], curr['adj_disapproval']])
         polls_file.close()
-
 
 update_data()
